@@ -1,0 +1,26 @@
+@model Cliente
+
+<h2>Detalhes do Cliente</h2>
+
+<div class="card">
+    <div class="card-body">
+        <p class="card-text">
+            <strong>Nome: </strong>@Model.Nome
+        </p>
+        <p class="card-text">
+            <strong>Email:</strong> @Model.Email
+        </p>
+        <p class="card-text">
+            <strong>Endereço:</strong> @Model.Endereco
+        </p>
+        <p class="card-text">
+            <strong>Telefone:</strong> @Model.Telefone
+        </p>
+        <p class="card-text">
+            <strong>Data de Nascimento:</strong> @Model.Data_Nascimento.ToString("d")
+        </p>
+
+
+        <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+    </div>
+</div>

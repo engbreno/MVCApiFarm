@@ -1,0 +1,21 @@
+@model Funcionario
+
+<h2>Remover Funcionario</h2>
+
+<div>
+    <h4>Você tem certeza que deseja remover o funcionario?</h4>
+    <p>Nome: @Model.Nome</p>
+    <p>Id da Fazenda: @Model.FazendaId</p>
+    <p>Nome da Fazenda: @Model.Fazenda.Nome</p>
+    <p>CPF: @Model.Cpf</p>
+    <p>Telefone: @Model.Telefone</p>
+    <p>Email: @Model.Email</p>
+    <p>Função: @Model.Funcao</p>
+    <p>Salário: R$@Model.Salario</p>
+</div>
+
+<form asp-action="Remover" method="post">
+    <input type="hidden" asp-for="Id"/>
+    <button type="submit" class="btn btn-danger">Remover</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

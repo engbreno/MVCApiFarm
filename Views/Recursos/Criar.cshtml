@@ -1,0 +1,64 @@
+@model Recurso
+
+<h2>Criar Recurso</h2>
+
+<form asp-action="Criar" method="post">
+    <div class="form-group w-50">
+        <label asp-for="Nome" class="control-label">Nome</label>
+        <input asp-for="Nome" class="form-control" required/>
+        <span asp-validation-for="Nome" class="text-danger"></span>
+    </div>
+    <div class="form-group w-50 mb-3">
+        <label asp-for="Preco" class="control-label">Preço</label>
+        <input asp-for="Preco" class="form-control" type="number" required/>
+        <span asp-validation-for="Preco" class="text-danger"></span>
+    </div>
+    <div class="form-group w-50 mb-3">
+        <label asp-for="Quantidade" class="control-label">Quantidade</label>
+        <input asp-for="Quantidade" class="form-control" required/>
+        <span asp-validation-for="Quantidade" class="text-danger"></span>
+    </div>
+    <div class="form-group w-50 mb-3">
+        <label asp-for="UnidadeMedida" class="control-label">Unidade de Medida</label>
+        <input asp-for="UnidadeMedida" class="form-control" required/>
+        <span asp-validation-for="UnidadeMedida" class="text-danger"></span>
+    </div>
+    <div class="form-group w-50 mb-3">
+        <label asp-for="Tipo" class="control-label">Tipo</label>
+        <select asp-for="Tipo" class="form-control" asp-items="ViewBag.TiposRecursos" onchange="tipoMudou(this.value)"></select>
+    </div>
+
+    <!-- Campos específicos para Maquinário -->
+    <div id="maquinarioFields" style="display:none;">
+        <div class="form-group w-50 mb-3">
+            <label asp-for="NumeroSerie" class="control-label">Número de Série</label>
+            <input asp-for="NumeroSerie" class="form-control"/>
+            <span asp-validation-for="NumeroSerie" class="text-danger"></span>
+        </div>
+        <div class="form-group w-50 mb-3">
+            <label asp-for="DataAquisicao" class="control-label">Data de Aquisição</label>
+            <input asp-for="DataAquisicao" class="form-control" type="date"/>
+            <span asp-validation-for="DataAquisicao" class="text-danger"></span>
+        </div>
+        <div class="form-group w-50 mb-3">
+            <label asp-for="Status" class="control-label">Status</label>
+            <select asp-for="Status" class="form-control" asp-items="ViewBag.StatusRecursos"></select>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Criar</button>
+    <a asp-action="Index" class="btn btn-secondary ml-2">Voltar</a>
+</form>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script>
+        function tipoMudou(tipo) {
+            if (tipo === "Maquinário") {
+                document.getElementById('maquinarioFields').style.display = 'block';
+            } else {
+                document.getElementById('maquinarioFields').style.display = 'none';
+            }
+        }
+    </script>
+}

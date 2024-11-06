@@ -1,0 +1,26 @@
+@model Recurso
+
+<h2>Remover Recurso</h2>
+
+<div>
+    <h4>Você tem certeza que deseja remover o recurso?</h4>
+    <p>Nome: @Model.Nome</p>
+    <p>Tipo: @Model.Tipo</p>
+    <p>Preço: @Model.Preco.ToString("C")</p>
+    <p>Quantidade: @Model.Quantidade</p>
+    <p>Unidade de Medida: @Model.UnidadeMedida</p>
+    @if (Model.Tipo == "Maquinário")
+    {
+        <p>Número de Série: @Model.NumeroSerie</p>
+        <p>Data de Aquisição: @Model.DataAquisicao.ToString("d")</p>
+        <p>Status: @Model.Status</p>
+    }
+
+
+</div>
+
+<form asp-action="Remover" method="post">
+    <input type="hidden" asp-for="Id"/>
+    <button type="submit" class="btn btn-danger">Remover</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

@@ -1,0 +1,39 @@
+@model IEnumerable<Venda>
+
+<h1>Lista de Vendas</h1>
+
+<p>
+    <a asp-action="Criar">Criar Nova Venda</a>
+</p>
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Nome do Cliente</th>
+        <th scope="col">Status</th>
+        <th scope="col">Forma de Pagamento</th>
+        <th scope="col">Forma de Entrega</th>
+        <th scope="col">Ações</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var venda in Model)
+    {
+        <tr>
+            <td scope="row">@venda.Id</td>
+            <td>@venda.Cliente.Nome</td>
+            <td>@venda.Status</td>
+            <td>@venda.FormaPagamento</td>
+            <td>@venda.FormaEntrega</td>
+
+            <td>
+                <a asp-action="Editar" asp-route-id="@venda.Id">Editar</a> |
+                <a asp-action="Detalhes" asp-route-id="@venda.Id">Detalhes</a> |
+                <a asp-action="Remover" asp-route-id="@venda.Id">Excluir</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

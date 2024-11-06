@@ -1,0 +1,37 @@
+@model IEnumerable<Fornecedor>
+
+<h1>Lista de Fornecedores</h1>
+
+<p>
+    <a asp-action="Criar">Criar Novo Fornecedor</a>
+</p>
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Nome</th>
+        <th scope="col">CNPJ</th>
+        <th scope="col">Representante</th>
+        <th scope="col">Telefone</th>
+        <th scope="col">Ações</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var fornecedor in Model)
+    {
+        <tr>
+            <td scope="row">@fornecedor.Id</td>
+            <td>@fornecedor.Nome</td>
+            <td>@fornecedor.Cnpj</td>
+            <td>@fornecedor.Representante</td>
+            <td>@fornecedor.Telefone</td>
+            <td>
+                <a asp-action="Editar" asp-route-id="@fornecedor.Id">Editar</a> |
+                <a asp-action="Remover" asp-route-id="@fornecedor.Id">Excluir</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

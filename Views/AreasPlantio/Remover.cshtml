@@ -1,0 +1,20 @@
+@model AreaPlantio
+
+<h2>Remover Área de Plantio</h2>
+
+<div>
+    <h4>Você tem certeza que deseja remover a Área de Plantio?</h4>
+    <p>Nome: @Model.Nome</p>
+    <p>Id da Fazenda: @Model.FazendaId</p>
+    <p>Nome da Fazenda: @Model.Fazenda.Nome</p>
+    <p>Hectares: @Model.Hectares</p>
+    <p>Localização: @Model.Localizacao</p>
+    <p>Status: @Model.Status</p>
+    <p>Descrição: @Model.Descricao</p>
+</div>
+
+<form asp-action="Remover" method="post">
+    <input type="hidden" asp-for="Id"/>
+    <button type="submit" class="btn btn-danger">Remover</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

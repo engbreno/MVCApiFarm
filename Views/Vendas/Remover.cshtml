@@ -1,0 +1,48 @@
+@model Venda
+
+<h2>Remover Venda</h2>
+
+<div>
+    <h4>Você tem certeza que deseja remover a venda?</h4>
+    <p>Nome do cliente: @Model.Cliente.Nome</p>
+    <p>Data de venda: @Model.DataVenda.ToString("d")</p>
+    <p>Status: @Model.Status</p>
+    <p>Forma de Pagamento: @Model.FormaPagamento</p>
+    <p>Forma de entrega: @Model.FormaEntrega</p>
+    <p>Itens da venda:</p>
+    <table class="table" id="itensVendaTable">
+        <thead>
+        <tr>
+            <th>Produto</th>
+            <th>Quantidade</th>
+            <th>Preco</th>
+            <th>Subtotal</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        @if (Model.ItensVenda != null)
+        {
+            @foreach (var item in Model.ItensVenda)
+            {
+                <tr>
+                    <td>@item.Recurso.Nome</td>
+                    <td>@item.Quantidade</td>
+                    <td>@item.Preco</td>
+                    <td>@item.SubTotal</td>
+                </tr>
+            }
+        }
+
+        </tbody>
+    </table>
+    <p class="card-text">
+        <strong>Total:</strong> @Model.Total.ToString("C")
+    </p>
+</div>
+
+<form asp-action="Remover" method="post">
+    <input type="hidden" asp-for="Id"/>
+    <button type="submit" class="btn btn-danger">Remover</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

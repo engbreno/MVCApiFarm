@@ -1,0 +1,39 @@
+@model IEnumerable<Recurso>
+
+<h1>Lista de Recursos</h1>
+
+<p>
+    <a asp-action="Criar">Criar Novo Recurso</a>
+</p>
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Preço</th>
+        <th scope="col">Quantidade</th>
+        <th scope="col">Tipo</th>
+        <th scope="col">Ações</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var recurso in Model)
+    {
+        <tr>
+            <td scope="row">@recurso.Id</td>
+            <td>@recurso.Nome</td>
+            <td>@recurso.Preco.ToString("C")</td>
+            <td>@recurso.Quantidade @recurso.UnidadeMedida</td>
+            <td>@recurso.Tipo</td>
+
+            <td>
+                <a asp-action="Editar" asp-route-id="@recurso.Id">Editar</a> |
+                <a asp-action="Detalhes" asp-route-id="@recurso.Id">Detalhes</a> |
+                <a asp-action="Remover" asp-route-id="@recurso.Id">Excluir</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

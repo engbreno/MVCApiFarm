@@ -1,0 +1,35 @@
+@model Funcionario
+
+<h2>Detalhes do Funcionario</h2>
+
+<div class="card">
+    <div class="card-body">
+        <p class="card-text">
+            <strong>Nome: </strong>@Model.Nome
+        </p>
+        <p class="card-text">
+            <strong>Id da fazenda: </strong>@Model.FazendaId
+        </p>
+        <p class="card-text">
+            <strong>Nome da fazenda: </strong>@Model.Fazenda.Nome
+        </p>
+        <p class="card-text">
+            <strong>CPF: </strong>@Model.Cpf
+        </p>
+        <p class="card-text">
+            <strong>Telefone:</strong> @Model.Telefone
+        </p>
+        <p class="card-text">
+            <strong>Email:</strong> @Model.Email
+        </p>
+        <p class="card-text">
+            <strong>Função:</strong> @Model.Funcao
+        </p>
+        <p class="card-text">
+            <strong>Salario:</strong> @Model.Salario
+        </p>
+
+
+        <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+    </div>
+</div>

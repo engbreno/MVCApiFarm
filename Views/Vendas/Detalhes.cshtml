@@ -1,0 +1,58 @@
+@model Venda
+
+<h2>Detalhes da Venda</h2>
+
+<div class="card">
+    <div class="card-body">
+        <p class="card-text">
+            <strong>Nome do Cliente: </strong>@Model.Cliente.Nome
+        </p>
+        <p class="card-text">
+            <strong>Data da Venda:</strong> @Model.DataVenda.ToString("d")</
+        </p>
+        <p class="card-text">
+            <strong>Status:</strong> @Model.Status
+        </p>
+        <p class="card-text">
+            <strong>Forma de Pagamento:</strong> @Model.FormaPagamento
+        </p>
+        <p class="card-text">
+            <strong>Forma de Entrega:</strong> @Model.FormaEntrega
+        </p>
+        <p class="card-text">
+            <strong>Itens da venda:</strong>
+        </p>
+        <table class="table" id="itensVendaTable">
+            <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Quantidade</th>
+                <th>Preco</th>
+                <th>Subtotal</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+            @if (Model.ItensVenda != null)
+            {
+                @foreach (var item in Model.ItensVenda)
+                {
+                    <tr>
+                        <td>@item.Recurso.Nome</td>
+                        <td>@item.Quantidade</td>
+                        <td>@item.Preco</td>
+                        <td>@item.SubTotal</td>
+                    </tr>
+                }
+            }
+
+            </tbody>
+        </table>
+        <p class="card-text">
+            <strong>Total:</strong> @Model.Total.ToString("C")
+        </p>
+
+
+        <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+    </div>
+</div>

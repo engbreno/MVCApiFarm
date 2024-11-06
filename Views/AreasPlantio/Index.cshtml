@@ -1,0 +1,37 @@
+@model IEnumerable<AreaPlantio>
+
+<h1>Lista de Areas de Plantio</h1>
+
+<p>
+    <a asp-action="Criar">Criar Nova Área de Plantio</a>
+</p>
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Nome da fazenda</th>
+        <th scope="col">Hectares</th>
+        <th scope="col">Status</th>
+        <th scope="col">Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var areaPlantio in Model)
+    {
+        <tr>
+            <td scope="row">@areaPlantio.Id</td>
+            <td>@areaPlantio.Nome</td>
+            <td>@areaPlantio.Fazenda.Nome</td>
+            <td>@areaPlantio.Hectares</td>
+            <td>@areaPlantio.Status</td>
+            <td>
+                <a asp-action="Editar" asp-route-id="@areaPlantio.Id">Editar</a> |
+                <a asp-action="Detalhes" asp-route-id="@areaPlantio.Id">Detalhes</a> |
+                <a asp-action="Remover" asp-route-id="@areaPlantio.Id">Excluir</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

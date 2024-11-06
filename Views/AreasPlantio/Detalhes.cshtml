@@ -1,0 +1,32 @@
+@model AreaPlantio
+
+<h2>Detalhes da Área de Plantio</h2>
+
+<div class="card">
+    <div class="card-body">
+        <p class="card-text">
+            <strong>Nome: </strong>@Model.Nome
+        </p>
+        <p class="card-text">
+            <strong>Id da fazenda: </strong>@Model.FazendaId
+        </p>
+        <p class="card-text">
+            <strong>Nome da fazenda: </strong>@Model.Fazenda.Nome
+        </p>
+        <p class="card-text">
+            <strong>Hectares: </strong>@Model.Hectares
+        </p>
+        <p class="card-text">
+            <strong>Localização:</strong> @Model.Localizacao
+        </p>
+        <p class="card-text">
+            <strong>Status:</strong> @Model.Status
+        </p>
+        <p class="card-text">
+            <strong>Descrição:</strong> @Model.Descricao
+        </p>
+
+
+        <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+    </div>
+</div>

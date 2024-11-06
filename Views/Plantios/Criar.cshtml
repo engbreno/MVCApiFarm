@@ -1,0 +1,161 @@
+@model Plantio
+
+<h2>Criar Plantio</h2>
+
+<form asp-action="Criar" method="post">
+    <div class="form-group w-50 mb-3">
+        <label asp-for="DataPlantio" class="control-label">Data de Plantio</label>
+        <input asp-for="DataPlantio" class="form-control" type="date" required/>
+        <span asp-validation-for="DataPlantio" class="text-danger"></span>
+    </div>
+    <div class="form-group w-50 mb-3">
+        <label asp-for="AreaPlantioId" class="control-label">Área de Plantio</label>
+        <select asp-for="AreaPlantioId" class="form-control" asp-items="ViewBag.AreasPlantio"></select>
+        <span asp-validation-for="AreaPlantioId" class="text-danger"></span>
+    </div>
+
+    <h3 style="text-align: center;">Recursos</h3>
+
+
+    <div class="d-flex align-top">
+
+        <div class="maquinario-container">
+            <table class="table" id="ItensPlantio">
+                <thead>
+                <tr>
+                    <th>Maquinário</th>
+                    <th>Numero de Série</th>
+                    <th>Quantidade</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="itensPlantioMQ">
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-success" id="adicionarMaquinario">Adicionar Maquinário</button>
+        </div>
+
+        <div class="insumos-container">
+            <table class="table" id="ItensPlantio">
+                <thead>
+                <tr>
+                    <th>Insumo</th>
+                    <th>Quantidade</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="itensPlantioInsumos">
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-success" id="adicionarInsumo">Adicionar Insumo</button>
+        </div>
+    </div>
+
+    <h3 style="text-align: center;">Produção</h3>
+    <div>
+        <table class="table" id="ItensPlantio">
+            <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Quantidade</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody id="itensPlantioProdutos">
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-success" id="adicionarProduto">Adicionar Produto</button>
+    </div>
+
+    <br/><br/>
+    <button type="submit" class="btn btn-primary">Criar</button>
+    <a asp-action="Index" class="btn btn-secondary ml-2">Voltar</a>
+</form>
+
+
+<style>
+    .d-flex {
+        display: flex;
+        gap: 20px; 
+        align-items: flex-start;
+        
+    }
+
+    .maquinario-container, .insumos-container {
+        flex: 1; 
+        min-width: 300px;
+        text-align: center; 
+    }
+
+    .insumos-container {
+        border-left: 2px solid #ddd; 
+        padding-left: 20px; 
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let hoje = new Date().toISOString().split('T')[0];
+        document.getElementById("DataPlantio").value = hoje;
+    });
+
+    let itemIndexPlantio = 0;
+    document.getElementById("adicionarMaquinario").addEventListener("click", function () {
+        let novaLinha = `
+            <tr>
+                <td>
+                    <select name="itensPlantio[${itemIndexPlantio}].RecursoId" class="form-control">
+                        @foreach (var recurso in ViewBag.RecursosMaquinario)
+                        {
+                            <option value="@recurso.Value">@recurso.Text</option>
+                        }
+                    </select>
+                </td>
+                <td><input type="text" name="itensPlantio[${itemIndexPlantio}].NumeroSerie" class="form-control" readonly /></td>
+                <td><input type="text" name="itensPlantio[${itemIndexPlantio}].Quantidade" class="form-control"/></td>
+                <td><button type="button" class="btn btn-danger" onclick="removerItem(this)">Remover</button></td>
+            </tr>`;
+        document.getElementById("itensPlantioMQ").insertAdjacentHTML('beforeend', novaLinha);
+        itemIndexPlantio++;
+    });
+
+    function removerItem(botao) {
+        botao.closest('tr').remove();
+    }
+
+    document.getElementById("adicionarInsumo").addEventListener("click", function () {
+        let novaLinha = `
+            <tr>
+                <td>
+                    <select name="itensPlantio[${itemIndexPlantio}].RecursoId" class="form-control">
+                        @foreach (var recurso in ViewBag.RecursosInsumos)
+                        {
+                            <option value="@recurso.Value">@recurso.Text</option>
+                        }
+                    </select>
+                </td>
+                <td><input type="text" name="itensPlantio[${itemIndexPlantio}].Quantidade" class="form-control"/></td>
+                <td><button type="button" class="btn btn-danger" onclick="removerItem(this)">Remover</button></td>
+            </tr>`;
+        document.getElementById("itensPlantioInsumos").insertAdjacentHTML('beforeend', novaLinha);
+        itemIndexPlantio++;
+    });
+
+    document.getElementById("adicionarProduto").addEventListener("click", function () {
+        let novaLinha = `
+            <tr>
+                <td>
+                    <select name="itensPlantio[${itemIndexPlantio}].RecursoId" class="form-control">
+                        @foreach (var recurso in ViewBag.RecursosProdutos)
+                        {
+                            <option value="@recurso.Value">@recurso.Text</option>
+                        }
+                    </select>
+                </td>
+                <td><input type="text" name="itensPlantio[${itemIndexPlantio}].Quantidade" class="form-control"/></td>
+                <td><button type="button" class="btn btn-danger" onclick="removerItem(this)">Remover</button></td>
+            </tr>`;
+        document.getElementById("itensPlantioProdutos").insertAdjacentHTML('beforeend', novaLinha);
+        itemIndexPlantio++;
+    });
+</script>

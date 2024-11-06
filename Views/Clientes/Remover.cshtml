@@ -1,0 +1,20 @@
+@model Cliente
+
+<h2>Remover Cliente</h2>
+
+<div>
+    <h4>Você tem certeza que deseja remover o cliente?</h4>
+    <p>Nome: @Model.Nome</p>
+    <p>Email: @Model.Email</p>
+    <p>Endereço: @Model.Endereco</p>
+    <p>Data de nascimento: @Model.Data_Nascimento.ToString("d")</p>
+    <p>Telefone: @Model.Telefone</p>
+
+
+</div>
+
+<form asp-action="Remover" method="post">
+    <input type="hidden" asp-for="Id"/>
+    <button type="submit" class="btn btn-danger">Remover</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

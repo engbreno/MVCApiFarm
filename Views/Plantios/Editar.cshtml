@@ -1,0 +1,249 @@
+@model Plantio
+
+<form asp-action="Editar" method="post" onsubmit="renomearItensPlantio()">
+
+    <input type="hidden" asp-for="Id"/>
+
+    <style>
+        .d-flex {
+            display: flex;
+            align-items: flex-start;
+
+        }
+
+        .maquinario-container, .insumos-container, .plantio-container, .produtos-container {
+            border: 0px solid #ddd;
+            flex: 1;
+            min-width: 300px;
+            text-align: center;
+        }
+
+    </style>
+
+    <div>
+        <h2 style="text-align: center;"> Editar Plantio</h2>
+
+        <div class="header-container d-flex align-top w-100">
+
+
+            <div class="plantio-container w-50">
+                <div class="form-group w-50 mb-3">
+                    <label asp-for="DataPlantio" class="control-label">Data de Plantio</label>
+                    <input asp-for="DataPlantio" class="form-control form-control-sm" type="date" required/>
+                </div>
+                <div class="form-group w-50 mb-3">
+                    <label asp-for="AreaPlantioId" class="control-label">Área de Plantio</label>
+                    <select asp-for="AreaPlantioId" class="form-control form-control-sm" asp-items="ViewBag.AreasPlantio"></select>
+                </div>
+                
+            </div>
+
+            <div class="produtos-container w-50">
+                <h3 style="text-align: center;">Produção</h3>
+                <button type="button" class="btn btn-success btn-sm" id="adicionarProduto">Adicionar</button>
+                <div>
+                    <table class="table" id="itensPlantioProdutos">
+                        <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Quantidade</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var item in Model.ItensPlantio.Where(i => i.Recurso.Tipo == "Produto"))
+                        {
+                            <tr class="item-plantio">
+                                <td>
+                                    <select name="ItensPlantio[@item.Id].RecursoId" class="form-control form-control-sm">
+                                        @foreach (var recurso in ViewBag.RecursosProdutos)
+                                        {
+                                            <!option value="@recurso.Value" @(recurso.Value == item.RecursoId.ToString() ? "selected" : "")>@recurso.Text</!option>
+                                        }
+                                    </select>
+                                    <input type="hidden" name="ItensPlantio[@item.Id].Id" value="@item.Id"/>
+                                    <input type="hidden" name="ItensPlantio[@item.Id].PlantioId" value="@item.PlantioId"/>
+                                </td>
+                                <td>
+                                    <input type="text" name="ItensPlantio[@item.Id].Quantidade" class="form-control form-control-sm" value="@item.Quantidade"/>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-danger" onclick="removerItem(this)">-</button>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex align-top">
+        <div class="maquinario-container w-50">
+            <h3 style="text-align: center;">Maquinário</h3>
+            <button type="button" class="btn btn-success btn-sm" id="adicionarMaquinario">Adicionar</button>
+            <table class="table" id="itensPlantioMQ">
+                <thead>
+                <tr>
+                    <th>Maquinário</th>
+                    <th>Número de Série</th>
+                    <th>Quantidade</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model.ItensPlantio.Where(i => i.Recurso.Tipo == "Maquinário"))
+                {
+                    <tr class="item-plantio">
+                        <td>
+                            <select name="ItensPlantio[@item.Id].RecursoId" class="form-control  form-control-sm">
+                                @foreach (var recurso in ViewBag.RecursosMaquinario)
+                                {
+                                    <!option value="@recurso.Value" @(recurso.Value == item.RecursoId.ToString() ? "selected" : "")>@recurso.Text</!option>
+                                }
+                            </select>
+                            <input type="hidden" name="ItensPlantio[@item.Id].Id" value="@item.Id"/>
+                            <input type="hidden" name="ItensPlantio[@item.Id].PlantioId" value="@item.PlantioId"/>
+                        </td>
+                        <td>
+                            <input type="text" name="ItensPlantio[@item.Id].NumeroSerie" class="form-control form-control-sm" value="@item.NumeroSerie"/>
+                        </td>
+                        <td>
+                            <input type="text" size="5" name="ItensPlantio[@item.Id].Quantidade" class="form-control form-control-sm" value="@item.Quantidade"/>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger" onclick="removerItem(this)">-</button>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="insumos-container w-50">
+            <h3 style="text-align: center;">Insumos</h3>
+            <button type="button" class="btn btn-success btn-sm" id="adicionarInsumo">Adicionar</button>
+            <table class="table" id="itensPlantioInsumos">
+                <thead>
+                <tr>
+                    <th>Insumo</th>
+                    <th>Quantidade</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model.ItensPlantio.Where(i => i.Recurso.Tipo == "Insumo"))
+                {
+                    <tr class="item-plantio">
+                        <td>
+                            <select name="ItensPlantio[@item.Id].RecursoId" class="form-control form-control-sm">
+                                @foreach (var recurso in ViewBag.RecursosInsumos)
+                                {
+                                    <!option value="@recurso.Value" @(recurso.Value == item.RecursoId.ToString() ? "selected" : "")>@recurso.Text</!option>
+                                }
+                            </select>
+                            <input type="hidden" name="ItensPlantio[@item.Id].Id" value="@item.Id"/>
+                            <input type="hidden" name="ItensPlantio[@item.Id].PlantioId" value="@item.PlantioId"/>
+                        </td>
+                        <td>
+                            <input type="text" name="ItensPlantio[@item.Id].Quantidade" class="form-control form-control-sm" value="@item.Quantidade"/>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger" onclick="removerItem(this)">-</button>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+
+    <br/><br/>
+    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+    <a asp-action="Index" class="btn btn-secondary ml-2">Voltar</a>
+</form>
+
+<script>
+    let itemIndexPlantio = @Model.ItensPlantio.Count;
+
+    // Função para renomear os itens antes de enviar o formulário
+    function renomearItensPlantio() {
+        const items = document.querySelectorAll(".item-plantio");
+        items.forEach((item, index) => {
+            item.querySelectorAll("select, input").forEach(input => {
+                const name = input.getAttribute("name");
+                if (name) {
+                    const newName = name.replace(/\[.*?\]/, `[${index}]`);
+                    input.setAttribute("name", newName);
+                }
+            });
+        });
+    }
+
+    // Funções para adicionar novo item
+    function adicionarItemMaquinario() {
+        let novaLinha = `
+            <tr class="item-plantio">
+                <td>
+                    <select name="ItensPlantio[].RecursoId" class="form-control form-control-sm">
+                        @foreach (var recurso in ViewBag.RecursosMaquinario)
+                        {
+                            <option value="@recurso.Value">@recurso.Text</option>
+                        }
+                    </select>
+                </td>
+                <td><input type="text" name="ItensPlantio[].NumeroSerie" class="form-control form-control-sm" /></td>
+                <td><input type="text" name="ItensPlantio[].Quantidade" class="form-control form-control-sm" /></td>
+                <td><button type="button" class="btn btn-danger btn-sm" onclick="removerItem(this)">-</button></td>
+            </tr>`;
+        document.getElementById("itensPlantioMQ").insertAdjacentHTML('beforeend', novaLinha);
+    }
+
+    function adicionarItemInsumo() {
+        let novaLinha = `
+            <tr class="item-plantio">
+                <td>
+                    <select name="ItensPlantio[].RecursoId" class="form-control form-control-sm">
+                        @foreach (var recurso in ViewBag.RecursosInsumos)
+                        {
+                            <option value="@recurso.Value">@recurso.Text</option>
+                        }
+                    </select>
+                </td>
+                <td><input type="text" name="ItensPlantio[].Quantidade" class="form-control form-control-sm" /></td>
+                <td><button type="button" class="btn btn-danger btn-sm" onclick="removerItem(this)">-</button></td>
+            </tr>`;
+        document.getElementById("itensPlantioInsumos").insertAdjacentHTML('beforeend', novaLinha);
+    }
+
+    function adicionarItemProduto() {
+        let novaLinha = `
+            <tr class="item-plantio">
+                <td>
+                    <select name="ItensPlantio[].RecursoId" class="form-control form-control-sm">
+                        @foreach (var recurso in ViewBag.RecursosProdutos)
+                        {
+                            <option value="@recurso.Value">@recurso.Text</option>
+                        }
+                    </select>
+                </td>
+                <td><input type="text" name="ItensPlantio[].Quantidade" class="form-control form-control-sm" /></td>
+                <td><button type="button" class="btn btn-danger btn-sm" onclick="removerItem(this)">-</button></td>
+            </tr>`;
+        document.getElementById("itensPlantioProdutos").insertAdjacentHTML('beforeend', novaLinha);
+    }
+    
+    document.getElementById("adicionarMaquinario").addEventListener("click", adicionarItemMaquinario);
+    document.getElementById("adicionarInsumo").addEventListener("click", adicionarItemInsumo);
+    document.getElementById("adicionarProduto").addEventListener("click", adicionarItemProduto);
+
+    // Função para remover item
+    function removerItem(botao) {
+        botao.closest('tr').remove();
+    }
+</script>

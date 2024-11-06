@@ -1,0 +1,39 @@
+@model IEnumerable<Funcionario>
+
+<h1>Lista de Funcionarios</h1>
+
+<p>
+    <a asp-action="Criar">Criar Novo Funcionario</a>
+</p>
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Nome da fazenda</th>
+        <th scope="col">CPF</th>
+        <th scope="col">Telefone</th>
+        <th scope="col">Funcao</th>
+        <th scope="col">Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var funcionario in Model)
+    {
+        <tr>
+            <td scope="row">@funcionario.Id</td>
+            <td>@funcionario.Nome</td>
+            <td>@funcionario.Fazenda.Nome</td>
+            <td>@funcionario.Cpf</td>
+            <td>@funcionario.Telefone</td>
+            <td>@funcionario.Funcao</td>
+            <td>
+                <a asp-action="Editar" asp-route-id="@funcionario.Id">Editar</a> |
+                <a asp-action="Detalhes" asp-route-id="@funcionario.Id">Detalhes</a> |
+                <a asp-action="Remover" asp-route-id="@funcionario.Id">Excluir</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
