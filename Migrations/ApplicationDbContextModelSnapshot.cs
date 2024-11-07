@@ -293,9 +293,6 @@ namespace MvcVendas.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("NumeroSerie")
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("PlantioId")
                         .HasColumnType("INTEGER");
 
@@ -474,14 +471,9 @@ namespace MvcVendas.Migrations
                     b.Property<DateTime>("DataPlantio")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("ProdutoFinalId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AreaPlantioId");
-
-                    b.HasIndex("ProdutoFinalId");
 
                     b.ToTable("Plantios");
                 });
@@ -756,15 +748,7 @@ namespace MvcVendas.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MvcApiFarm.Models.Recurso", "ProdutoFinal")
-                        .WithMany()
-                        .HasForeignKey("ProdutoFinalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("AreaPlantio");
-
-                    b.Navigation("ProdutoFinal");
                 });
 
             modelBuilder.Entity("MvcApiFarm.Models.Venda", b =>

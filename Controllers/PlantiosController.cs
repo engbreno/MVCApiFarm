@@ -110,7 +110,6 @@ public class PlantiosController : Controller
                         plantioExistente.ItensPlantio.Add(new ItemPlantio
                         {
                             RecursoId = item.RecursoId,
-                            NumeroSerie = item.NumeroSerie,
                             Quantidade = item.Quantidade,
                             PlantioId = plantioExistente.Id
                         });
@@ -124,7 +123,6 @@ public class PlantiosController : Controller
                         if (itemExistente != null)
                         {
                             itemExistente.RecursoId = item.RecursoId;
-                            itemExistente.NumeroSerie = item.NumeroSerie;
                             itemExistente.Quantidade = item.Quantidade;
                         }
                     }
@@ -188,9 +186,13 @@ public class PlantiosController : Controller
     private void ListaRecursos()
     {
         ViewBag.Recursos = new SelectList(context.Recursos, "Id", "Nome");
-        ViewBag.RecursosMaquinario =
-            new SelectList(context.Recursos.Where(r => r.Tipo == "Maquinário" && r.Status == "Disponível"), "Id",
-                "Nome");
+        ViewBag.RecursosMaquinario = context.Recursos
+            .Where(r => r.Tipo == "Maquinário" && r.Status == "Disponível")
+            .Select(r => new {
+                Id = r.Id,
+                Nome = r.Nome,
+                NumeroSerie = r.NumeroSerie
+            }).ToList();
         ViewBag.RecursosInsumos = new SelectList(context.Recursos.Where(r => r.Tipo == "Insumo"), "Id", "Nome");
         ViewBag.RecursosProdutos = new SelectList(context.Recursos.Where(r => r.Tipo == "Produto"), "Id", "Nome");
         ViewBag.AreasPlantio = new SelectList(context.AreasPlantio, "Id", "Nome");

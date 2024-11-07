@@ -98,17 +98,17 @@
                 {
                     <tr class="item-plantio">
                         <td>
-                            <select name="ItensPlantio[@item.Id].RecursoId" class="form-control  form-control-sm">
-                                @foreach (var recurso in ViewBag.RecursosMaquinario)
+                            <select name="ItensPlantio[@item.Id].RecursoId" class="form-control  form-control-sm" onchange="atualizarNumeroSerie(this)">
+                                @foreach (var recurso in (IEnumerable<dynamic>)ViewBag.RecursosMaquinario)
                                 {
-                                    <!option value="@recurso.Value" @(recurso.Value == item.RecursoId.ToString() ? "selected" : "")>@recurso.Text</!option>
+                                    <!option value="@recurso.Id" data-numero-serie="@recurso.NumeroSerie" @(recurso.Id == item.Recurso.Id ? "selected" : "")>@recurso.Nome</!option>
                                 }
                             </select>
                             <input type="hidden" name="ItensPlantio[@item.Id].Id" value="@item.Id"/>
                             <input type="hidden" name="ItensPlantio[@item.Id].PlantioId" value="@item.PlantioId"/>
                         </td>
                         <td>
-                            <input type="text" name="ItensPlantio[@item.Id].NumeroSerie" class="form-control form-control-sm" value="@item.NumeroSerie"/>
+                            <input type="text" name="ItensPlantio[@item.Id].NumeroSerie" class="form-control form-control-sm numero-serie" readonly value="@item.Recurso.NumeroSerie"/>
                         </td>
                         <td>
                             <input type="text" size="5" name="ItensPlantio[@item.Id].Quantidade" class="form-control form-control-sm" value="@item.Quantidade"/>
@@ -184,24 +184,29 @@
             });
         });
     }
-
-    // Funções para adicionar novo item
+    
     function adicionarItemMaquinario() {
         let novaLinha = `
-            <tr class="item-plantio">
-                <td>
-                    <select name="ItensPlantio[].RecursoId" class="form-control form-control-sm">
-                        @foreach (var recurso in ViewBag.RecursosMaquinario)
-                        {
-                            <option value="@recurso.Value">@recurso.Text</option>
-                        }
-                    </select>
-                </td>
-                <td><input type="text" name="ItensPlantio[].NumeroSerie" class="form-control form-control-sm" /></td>
-                <td><input type="text" name="ItensPlantio[].Quantidade" class="form-control form-control-sm" /></td>
-                <td><button type="button" class="btn btn-danger btn-sm" onclick="removerItem(this)">-</button></td>
-            </tr>`;
+        <tr class="item-plantio">
+            <td>
+  <select name="ItensPlantio[].RecursoId" class="form-control form-control-sm" onchange="atualizarNumeroSerie(this)">
+    @foreach (var recurso in (IEnumerable<dynamic>)ViewBag.RecursosMaquinario)
+        {
+        <option value="@recurso.Id" data-numero-serie="@recurso.NumeroSerie">@recurso.Nome</option>
+        }
+</select>
+            </td>
+            <td><input type="text" name="ItensPlantio[].NumeroSerie" class="form-control form-control-sm numero-serie" readonly /></td>
+            <td><input type="text" name="ItensPlantio[].Quantidade" class="form-control form-control-sm" /></td>
+            <td><button type="button" class="btn btn-danger btn-sm" onclick="removerItem(this)">-</button></td>
+        </tr>`;
         document.getElementById("itensPlantioMQ").insertAdjacentHTML('beforeend', novaLinha);
+    }
+
+    function atualizarNumeroSerie(selectElement) {
+        const numeroSerie = selectElement.options[selectElement.selectedIndex].getAttribute('data-numero-serie');
+        const numeroSerieInput = selectElement.closest('tr').querySelector('.numero-serie');
+        numeroSerieInput.value = numeroSerie || '';
     }
 
     function adicionarItemInsumo() {

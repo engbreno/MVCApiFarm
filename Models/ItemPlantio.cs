@@ -12,10 +12,7 @@ public class ItemPlantio
     [JsonIgnore] [ValidateNever] public Plantio Plantio { get; set; }
 
     public int RecursoId { get; set; }
-
     [JsonIgnore] [ValidateNever] public Recurso Recurso { get; set; }
-
-    public string? NumeroSerie { get; set; }
-
+    
     public int Quantidade { get; set; }
 }
